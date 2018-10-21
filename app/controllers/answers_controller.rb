@@ -7,22 +7,20 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = Answer.new(answer_params)
-
-    if @answer.save
+    if @question.answers.create(answer_params)
       redirect_to @question
     else
-      render :new
+      redirect_to @question
     end
   end
 
   private
 
   def set_question
-    @question = Question.find_by_id(answer_params[:question_id])
+    @question = Question.find_by_id(params[:question_id])
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :question_id)
+    params.require(:answer).permit(:body)
   end
 end
