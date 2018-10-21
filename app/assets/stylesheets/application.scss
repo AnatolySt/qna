@@ -13,3 +13,13 @@
  *= require_tree .
  *= require_self
  */
+@import "bootstrap";
+
+form.new_question {
+  max-width: 760px;
+  padding: 20px 0;
+}
+
+.page-content {
+  padding-top: 30px;
+}

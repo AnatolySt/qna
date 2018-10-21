@@ -1,0 +1,8 @@
+h1 == @question.title
+
+table.table
+  tr
+    td.body
+      p == @question.body
+
+== link_to 'Перейти к списку вопросов', questions_path
