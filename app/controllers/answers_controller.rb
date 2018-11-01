@@ -1,23 +1,40 @@
 class AnswersController < ApplicationController
-
-  before_action :set_question, only: [:create]
+  before_action :authenticate_user!
+  before_action :set_question, only: [:create, :destroy]
+  before_action :set_answer, only: [:destroy]
 
   def new
     @answer = Answer.new
   end
 
   def create
-    if @question.answers.create(answer_params)
+    @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
+    if @answer.save
       redirect_to @question
     else
-      redirect_to @question
+      render 'questions/show'
     end
+  end
+
+  def destroy
+    if @answer.user == current_user
+      @answer.destroy
+      flash[:notice] = 'Ваш ответ был удален.'
+    else
+      flash[:notice] = 'Вы не являетесь автором ответа.'
+    end
+    redirect_to @question
   end
 
   private
 
+  def set_answer
+    @answer = Answer.find(params[:id])
+  end
+
   def set_question
-    @question = Question.find_by_id(params[:question_id])
+    @question = Question.find(params[:question_id])
   end
 
   def answer_params
