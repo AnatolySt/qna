@@ -1,0 +1,12 @@
+h1 Список вопросов
+
+table.table
+  - unless @questions.empty?
+    - @questions.each do |q|
+      tr
+        td.title = link_to q.title, q
+  - else
+    p
+      | Не создано ни одного вопроса
+
+== link_to 'Создать вопрос', new_question_path

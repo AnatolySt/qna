@@ -1,0 +1,8 @@
+== form_for [@question, @answer], url: question_answers_path do |f|
+  div.form-group
+    == f.label :body, 'Текст'
+    == f.text_area :body, class: 'form-control'
+  div.actions
+    == f.submit 'Отправить', class: 'btn btn-primary'
+
+p == link_to 'Назад', questions_path
