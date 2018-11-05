@@ -13,12 +13,13 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
+      flash[:notice] = 'Ваш ответ не был сохранен.'
       render 'questions/show'
     end
   end
 
   def destroy
-    if @answer.user == current_user
+    if current_user.author_of?(@answer)
       @answer.destroy
       flash[:notice] = 'Ваш ответ был удален.'
     else
@@ -40,4 +41,5 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body)
   end
+
 end

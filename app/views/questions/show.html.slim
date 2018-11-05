@@ -12,7 +12,7 @@ table.table
             td.body
               p == answer.body
             td.buttons
-              - if answer.user == current_user
+              - if user_signed_in? && current_user.author_of?(answer)
                 == link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }
   - else
     p 'Ответов нет'

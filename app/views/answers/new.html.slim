@@ -1,6 +1,5 @@
-== form_for [@question, @answer], url: question_answers_path(@question, answer) do |f|
+== form_for [@question, answer] do |f|
   - render 'common/errors', resource: @answer
-  - f.hidden_field 'question_id'
   div.form-group
     == f.label :body, 'Текст'
     == f.text_area :body, class: 'form-control'
