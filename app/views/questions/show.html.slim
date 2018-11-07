@@ -12,12 +12,12 @@ table.table
             td.body
               p == answer.body
             td.buttons
-              - if user_signed_in? && current_user.author_of?(answer)
+              - if current_user&.author_of?(answer)
                 == link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }
   - else
     p 'Ответов нет'
 
 h2 Добавить ответ
-= render partial: 'answers/new', locals: { answer: @answer }
+= render 'answers/new', answer: @answer
 
 p == link_to 'Перейти к списку вопросов', questions_path

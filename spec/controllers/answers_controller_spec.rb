@@ -5,27 +5,14 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
 
-  describe 'GET #new' do
-    sign_in_user
-    before { get :new, params: { question_id: question, user_id: user } }
-
-    it 'assigns a new Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new Answer
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'POST #create' do
     context 'with valid attributes' do
       sign_in_user
       it 'saves an answer in database' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer), user: @user } }.to change(question.answers, :count).by(1)
+        expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
       end
       it 'saved answer belongs to signed_in user' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer), user: @user } }.to change(@user.answers, :count).by(1)
+        expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(@user.answers, :count).by(1)
       end
       it 'redirects to question show' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) }
@@ -51,7 +38,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'author delete his answer' do
       it 'deletes answer' do
         author_answer
-        expect { delete :destroy, params: { id: author_answer, question_id: question } }.to change(question.answers, :count).by(-1)
+        expect { delete :destroy, params: { id: author_answer, question_id: question } }.to change(Answer, :count).by(-1)
       end
 
       it 'redirect to index view' do
@@ -63,7 +50,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'user trying to delete not his answer' do
       it 'not deletes answer' do
         answer
-        expect { delete :destroy, params: { id: answer, question_id: question } }.to change(question.answers, :count).by(0)
+        expect { delete :destroy, params: { id: answer, question_id: question } }.to_not change(question.answers, :count)
       end
 
       it 'redirect to index view' do

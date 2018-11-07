@@ -19,6 +19,7 @@ feature 'User can answer the question on question page' do
     fill_in 'answer_body', with: nil
     click_on 'Отправить'
     expect(page).to have_content 'Ваш ответ не был сохранен.'
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-authenticated user try to answer the question' do

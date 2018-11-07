@@ -1,10 +1,10 @@
-== form_for @question do |f|
-  - render 'common/errors', resource: @question
+= form_for @question do |f|
+  = render 'common/errors', resource: @question
   div.form-group
-    == f.label :title, 'Заголовок'
-    == f.text_field :title, class: 'form-control'
+    = f.label :title, 'Заголовок'
+    = f.text_field :title, class: 'form-control'
   div.form-group
-    == f.label :body, 'Текст'
-    == f.text_area :body, class: 'form-control'
+    = f.label :body, 'Текст'
+    = f.text_area :body, class: 'form-control'
   div.actions
-    == f.submit 'Отправить', class: 'btn btn-primary'
+    = f.submit 'Отправить', class: 'btn btn-primary'

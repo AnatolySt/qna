@@ -1,16 +1,10 @@
 FactoryBot.define do
-  sequence :title_generate do |n|
+  sequence :title do |n|
     "MyString#{n}"
   end
 
   factory :question do
-    title { "MyString" }
-    body { "MyText" }
-    user
-  end
-
-  factory :question_second, class: Question do
-    title { "MyStringSecond" }
+    title
     body { "MyText" }
     user
   end

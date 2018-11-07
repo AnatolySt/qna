@@ -6,17 +6,13 @@ feature 'Show list of questions', %q{
   I want to be able to see list of questions
 } do
 
-  given(:question) { create(:question) }
-  given(:question_second) { create(:question_second) }
-
+  given!(:questions) { create_list(:question, 3) }
 
   scenario 'User or guest try to see questions list' do
-    question
-    question_second
     visit questions_path
-    expect(page).to have_content 'Список вопросов'
-    expect(page).to have_content 'MyString'
-    expect(page).to have_content 'MyStringSecond'
+    questions.each do |question|
+      expect(page).to have_content "#{question.title}"
+    end
   end
 
 end

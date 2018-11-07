@@ -13,8 +13,10 @@ feature 'User can delete his answer' do
   scenario 'Authenticated user try to delete his answer' do
     sign_in(user)
     visit question_path(question)
+    expect(page).to have_content 'MyAnswerText'
     click_on 'Удалить комментарий'
     expect(page).to have_content 'Ваш ответ был удален.'
+    expect(page).to_not have_content 'MyAnswerText'
   end
 
   scenario 'Authenticated user do not see link to delete other user answer' do

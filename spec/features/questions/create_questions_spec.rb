@@ -31,6 +31,8 @@ feature 'Create question', %q{
     click_on 'Отправить'
 
     expect(page).to have_content 'Ошибка. Попробуйте еще раз.'
+    expect(page).to have_content "Body can't be blank"
+    expect(page).to have_content "Title can't be blank"
   end
 
   scenario 'Non-authenticated user try to ask question' do
