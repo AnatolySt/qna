@@ -1,0 +1,7 @@
+- if answer.persisted?
+  tr
+    td.body
+      p == answer.body
+    td.buttons
+      - if current_user&.author_of?(answer)
+        == link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }

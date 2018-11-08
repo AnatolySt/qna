@@ -1,23 +1,23 @@
 h1 == @question.title
+p == @question.body
 
-table.table
-  tr
-    td.body
-      p == @question.body
 
+
+table.table.answers
   - if @question.answers.any?
     - @question.answers.each do |answer|
       - if answer.persisted?
-          tr
-            td.body
-              p == answer.body
-            td.buttons
-              - if current_user&.author_of?(answer)
-                == link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }
+        tr
+          td.body
+            p == answer.body
+          td.buttons
+            - if current_user&.author_of?(answer)
+              == link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: {confirm: 'Вы уверены?'}
   - else
     p 'Ответов нет'
 
 h2 Добавить ответ
+div.answer-errors
 = render 'answers/new', answer: @answer
 
 p == link_to 'Перейти к списку вопросов', questions_path

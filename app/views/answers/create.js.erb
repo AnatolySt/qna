@@ -1,0 +1,5 @@
+$('.answers').append('<%= j render @answer %>');
+$('#answer_body').val('');
+<% if @answer.errors.present? %>
+  $('.answer-errors').append('<%= render 'common/errors', resource: @answer %>');
+<% end %>
