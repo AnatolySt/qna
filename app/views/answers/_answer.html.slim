@@ -1,7 +1,14 @@
 - if answer.persisted?
-  tr
+  tr *{ id: "answer-#{answer.id}" }
     td.body
-      p == answer.body
+      p = answer.body
     td.buttons
       - if current_user&.author_of?(answer)
-        == link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }
+        p = link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }
+        p = link_to 'Редактировать', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+        = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+          div.form-group
+            = f.label :body, 'Текст'
+            = f.text_area :body, class: 'form-control'
+          div.actions
+            = f.submit 'Отправить', class: 'btn btn-primary'

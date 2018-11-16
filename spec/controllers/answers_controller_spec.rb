@@ -54,8 +54,27 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirect to index view' do
-        delete :destroy, params: { question_id: question.id, id: answer.id }
+        delete :destroy, params: { question_id: question.id, id: answer.id, format: :js }
         expect(response).to redirect_to question_path(question)
+      end
+    end
+
+    describe 'PATCH #update' do
+      sign_in_user
+      context 'with valid attributes' do
+        it 'assigns the requested answer to @answer' do
+          patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer), format: :js }
+          expect(assigns(:answer)).to eq answer
+        end
+        it 'updates the attributes' do
+          patch :update, params: { id: answer, question_id: question, answer: { body: 'new body'}, format: :js }
+          answer.reload
+          expect(answer.body).to eq 'new body'
+        end
+        it 'render update template' do
+          patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer), format: :js }
+          expect(response).to render_template :update
+        end
       end
     end
 
