@@ -15,7 +15,6 @@ feature 'User can delete his answer' do
     visit question_path(question)
     expect(page).to have_content 'MyAnswerText'
     click_on 'Удалить комментарий'
-    expect(page).to have_content 'Ваш ответ был удален.'
     expect(page).to_not have_content 'MyAnswerText'
   end
 
