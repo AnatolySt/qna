@@ -1,14 +1,15 @@
 - if answer.persisted?
-  tr class=(answer.best_flag ? 'best_answer' : 'answer') *{ id: "answer-#{answer.id}" }
-    td.body
+  div class=(answer.best_flag ? 'best_answer answer' : 'answer') *{ id: "answer-#{answer.id}" }
+    div.body
       p = answer.body
       p = answer.best_flag
-    td.buttons
+    div.buttons
       - if current_user&.author_of?(answer)
         p = link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
         p = link_to 'Редактировать', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         - if current_user&.author_of?(@question)
-          p = link_to 'Назначить ответ лучшим', mark_best_question_answer_path(@question, answer), method: :patch, remote: true
+          - if answer.best_flag != true
+            p = link_to 'Назначить ответ лучшим', mark_best_question_answer_path(@question, answer), method: :patch, remote: true
         = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
           div.form-group
             = f.label :body, 'Текст'

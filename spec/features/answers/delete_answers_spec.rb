@@ -10,11 +10,13 @@ feature 'User can delete his answer' do
     create(:answer, question: question, user: user )
   end
 
-  scenario 'Authenticated user try to delete his answer' do
+  scenario 'Authenticated user try to delete his answer', js: true do
     sign_in(user)
     visit question_path(question)
     expect(page).to have_content 'MyAnswerText'
-    click_on 'Удалить комментарий'
+    accept_alert do
+      click_on 'Удалить комментарий'
+    end
     expect(page).to_not have_content 'MyAnswerText'
   end
 

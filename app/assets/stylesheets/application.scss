@@ -40,6 +40,21 @@ form + p {
   padding-bottom: 20px;
 }
 
+.answers {
+  display: flex;
+  flex-direction: column;
+}
+
+.answer .buttons {
+  float: right;
+  padding: 12px;
+}
+
+.answer .body {
+  padding: 12px;
+}
+
 .best_answer {
+  order: -1;
   background: #effff3;
 }

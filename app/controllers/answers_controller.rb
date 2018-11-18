@@ -24,6 +24,10 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
+    @question.answers.each do |answer|
+      answer.best_flag = false
+      answer.save
+    end
     @answer.best_flag = true
     @answer.save
   end

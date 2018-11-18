@@ -11,7 +11,6 @@ feature "Question's author can select the best answer" do
     visit question_path(question)
     save_and_open_page
     first('.answer').click_on('Назначить ответ лучшим')
-
     expect(page).to have_css('.best_answer')
   end
 end
