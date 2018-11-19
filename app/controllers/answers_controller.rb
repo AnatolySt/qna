@@ -24,12 +24,7 @@ class AnswersController < ApplicationController
   end
 
   def mark_best
-    @question.answers.each do |answer|
-      answer.best_flag = false
-      answer.save
-    end
-    @answer.best_flag = true
-    @answer.save
+    @answer.best_switch
   end
 
   private
@@ -43,7 +38,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :best_flag)
+    params.require(:answer).permit(:body)
   end
 
 end

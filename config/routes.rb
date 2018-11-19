@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     resources :answers do
       member do
         patch :mark_best
-        put :mark_best
       end
     end
   end
