@@ -17,6 +17,6 @@ feature 'Add files to question' do
 
     expect(page).to have_content 'Test Question Title'
     expect(page).to have_content 'Test Question Body'
-    expect(page).to have_content 'spec_helper.rb'
+    expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
   end
 end

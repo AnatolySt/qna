@@ -6,5 +6,10 @@
   div.form-group
     = f.label :body, 'Текст'
     = f.text_area :body, class: 'form-control'
+  div.form-group
+    p Прикрепить файлы
+    = f.fields_for :attachments do |a|
+      p = a.label :file
+      = a.file_field :file
   div.actions
     = f.submit 'Отправить', class: 'btn btn-primary'
