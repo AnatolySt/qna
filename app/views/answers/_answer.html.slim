@@ -2,6 +2,14 @@
   div class=(answer.best ? 'best_answer answer' : 'answer') *{ id: "answer-#{answer.id}" }
     div.body
       p = answer.body
+      - if answer.attachments.present?
+        p Прикрепленные файлы:
+        ul
+          - answer.attachments.each do |a|
+            li *{ id: "attachment-#{a.id}" }
+              = link_to a.file.identifier, a.file.url
+              - if current_user&.author_of?(answer)
+                = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
     div.buttons
       - if current_user&.author_of?(answer)
         p = link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
@@ -13,5 +21,10 @@
           div.form-group
             = f.label :body, 'Текст'
             = f.text_area :body, class: 'form-control'
+          div.form-group
+            p Прикрепить файлы
+            = f.fields_for :attachments do |a|
+              = render 'common/attachment_fields', f: a
+              = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'
           div.actions
             = f.submit 'Отправить', class: 'btn btn-primary'

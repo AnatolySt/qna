@@ -9,7 +9,8 @@
   div.form-group
     p Прикрепить файлы
     = f.fields_for :attachments do |a|
-      p = a.label :file
-      = a.file_field :file
+      = render 'common/attachment_fields', f: a
+    = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'
+
   div.actions
     = f.submit 'Отправить', class: 'btn btn-primary'
