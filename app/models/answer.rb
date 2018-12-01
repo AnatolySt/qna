@@ -3,7 +3,7 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank
 
   validates :body, presence: true
 
