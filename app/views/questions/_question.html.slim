@@ -1,0 +1,29 @@
+div.question *{ id: "question-#{@question.id}" }
+  h1 == @question.title
+  p == @question.body
+  - if @question.attachments.present?
+    p Прикрепленные файлы:
+    ul
+      - @question.attachments.each do |a|
+        li *{ id: "attachment-#{a.id}" }
+          = link_to a.file.identifier, a.file.url
+          br
+          - if current_user&.author_of?(@question)
+            = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
+
+  - if current_user&.author_of?(@question)
+    p = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: { question_id: @question.id }
+    = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}" } do |f|
+      div.form-group
+        = f.label :title, 'Заголовок'
+        = f.text_field :title, class: 'form-control'
+      div.form-group
+        = f.label :body, 'Текст'
+        = f.text_area :body, class: 'form-control'
+      div.form-group
+        p Прикрепить файлы
+        = f.fields_for :attachments do |a|
+          = render 'common/attachment_fields', f: a
+        = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'
+      div.actions
+        = f.submit 'Изменить', class: 'btn btn-primary'

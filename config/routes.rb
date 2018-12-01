@@ -3,7 +3,12 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions do
-    resources :answers
+    resources :answers do
+      member do
+        patch :mark_best
+      end
+    end
   end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  resources :attachments, only: [:destroy]
 end

@@ -28,3 +28,33 @@ form + p {
   padding-top: 30px;
 }
 
+.edit_answer {
+  display: none;
+}
+
+.edit_question {
+  display: none;
+}
+
+.question {
+  padding-bottom: 20px;
+}
+
+.answers {
+  display: flex;
+  flex-direction: column;
+}
+
+.answer .buttons {
+  float: right;
+  padding: 12px;
+}
+
+.answer .body {
+  padding: 12px;
+}
+
+.best_answer {
+  order: -1;
+  background: #effff3;
+}

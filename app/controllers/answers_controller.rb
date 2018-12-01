@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_question, only: [:create, :destroy]
-  before_action :set_answer, only: [:destroy]
+  before_action :set_question, only: [:create, :update, :destroy, :mark_best]
+  before_action :set_answer, only: [:update, :destroy, :mark_best]
 
   def new
     @answer = Answer.new
@@ -10,22 +10,21 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    if @answer.save
-      redirect_to @question
-    else
-      flash[:notice] = 'Ваш ответ не был сохранен.'
-      render 'questions/show'
-    end
+    @answer.save
+  end
+
+  def update
+    @answer.update(answer_params)
   end
 
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:notice] = 'Ваш ответ был удален.'
-    else
-      flash[:notice] = 'Вы не являетесь автором ответа.'
     end
-    redirect_to @question
+  end
+
+  def mark_best
+    @answer.best_switch
   end
 
   private
@@ -39,7 +38,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, attachments_attributes: [:file])
   end
 
 end
