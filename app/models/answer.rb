@@ -1,4 +1,6 @@
 class Answer < ApplicationRecord
+  include Votable
+
   has_many :attachments, as: :attachable
   belongs_to :question
   belongs_to :user

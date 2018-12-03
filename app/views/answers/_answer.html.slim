@@ -3,28 +3,36 @@
     div.body
       p = answer.body
       - if answer.attachments.present?
-        p Прикрепленные файлы:
-        ul
-          - answer.attachments.each do |a|
-            li *{ id: "attachment-#{a.id}" }
-              = link_to a.file.identifier, a.file.url
-              - if current_user&.author_of?(answer)
-                = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
+        .files
+          p Прикрепленные файлы:
+          ul
+            - answer.attachments.each do |a|
+              li *{ id: "attachment-#{a.id}" }
+                = link_to a.file.identifier, a.file.url
+                - if current_user&.author_of?(answer)
+                  br
+                  = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
+    - if user_signed_in? && !current_user.author_of?(answer)
+      *{ class: "answer-votes-#{answer.id}" }
+        p Рейтинг: #{answer.rating}
+      span = link_to '+', vote_up_question_answer_path(@question, answer), method: :post, remote: true, data: { answer_id: answer.id, type: :json}, class: 'vote_answer'
+      span = link_to '-', vote_down_question_answer_path(@question, answer), method: :post, remote: true, data: { answer_id: answer.id, type: :json}, class: 'vote_answer'
     div.buttons
       - if current_user&.author_of?(answer)
-        p = link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
-        p = link_to 'Редактировать', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+        = link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
+        = link_to 'Редактировать', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         - if current_user&.author_of?(@question)
           - if !answer.best?
-            p = link_to 'Назначить ответ лучшим', mark_best_question_answer_path(@question, answer), method: :patch, remote: true
+            = link_to 'Назначить ответ лучшим', mark_best_question_answer_path(@question, answer), method: :patch, remote: true
         = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
           div.form-group
             = f.label :body, 'Текст'
             = f.text_area :body, class: 'form-control'
+          p Прикрепить файлы
           div.form-group
-            p Прикрепить файлы
             = f.fields_for :attachments do |a|
               = render 'common/attachment_fields', f: a
               = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'
           div.actions
             = f.submit 'Отправить', class: 'btn btn-primary'
+hr.divider

@@ -9,7 +9,6 @@ feature "Question's author can select the best answer" do
   scenario 'Author can select the best answer for his question', js: true do
     sign_in(user)
     visit question_path(question)
-    save_and_open_page
     first('.answer').click_on('Назначить ответ лучшим')
     expect(page).to have_css('.best_answer')
   end

@@ -2,14 +2,20 @@ div.question *{ id: "question-#{@question.id}" }
   h1 == @question.title
   p == @question.body
   - if @question.attachments.present?
-    p Прикрепленные файлы:
-    ul
-      - @question.attachments.each do |a|
-        li *{ id: "attachment-#{a.id}" }
-          = link_to a.file.identifier, a.file.url
-          br
-          - if current_user&.author_of?(@question)
-            = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
+    .files
+      p Прикрепленные файлы:
+      ul
+        - @question.attachments.each do |a|
+          li *{ id: "attachment-#{a.id}" }
+            = link_to a.file.identifier, a.file.url
+            br
+            - if current_user&.author_of?(@question)
+              = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
+  - if user_signed_in? && !current_user.author_of?(@question)
+    *{ class: "question-votes" }
+      p Рейтинг: #{@question.rating}
+    span = link_to '+', vote_up_question_path, method: :post, remote: true, data: { type: :json }, class: 'vote_question'
+    span = link_to '-', vote_down_question_path, method: :post, remote: true, data: { type: :json }, class: 'vote_question'
 
   - if current_user&.author_of?(@question)
     p = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: { question_id: @question.id }
