@@ -15,24 +15,24 @@
     - if user_signed_in? && !current_user.author_of?(answer)
       *{ class: "answer-votes-#{answer.id}" }
         p Рейтинг: #{answer.rating}
-      span = link_to '+', vote_up_question_answer_path(@question, answer), method: :post, remote: true, data: { answer_id: answer.id, type: :json}, class: 'vote_answer'
-      span = link_to '-', vote_down_question_answer_path(@question, answer), method: :post, remote: true, data: { answer_id: answer.id, type: :json}, class: 'vote_answer'
+      span = link_to '+', vote_up_answer_path(answer), method: :post, remote: true, data: { answer_id: answer.id, type: :json}, class: 'vote_answer'
+      span = link_to '-', vote_down_answer_path(answer), method: :post, remote: true, data: { answer_id: answer.id, type: :json}, class: 'vote_answer'
     div.buttons
       - if current_user&.author_of?(answer)
-        = link_to 'Удалить комментарий', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
+        = link_to 'Удалить комментарий', answer_path(answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
         = link_to 'Редактировать', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-        - if current_user&.author_of?(@question)
-          - if !answer.best?
-            = link_to 'Назначить ответ лучшим', mark_best_question_answer_path(@question, answer), method: :patch, remote: true
-        = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-          div.form-group
-            = f.label :body, 'Текст'
-            = f.text_area :body, class: 'form-control'
-          p Прикрепить файлы
-          div.form-group
-            = f.fields_for :attachments do |a|
-              = render 'common/attachment_fields', f: a
-              = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'
-          div.actions
-            = f.submit 'Отправить', class: 'btn btn-primary'
+      - if current_user&.author_of?(answer.question)
+        - if !answer.best?
+          = link_to 'Назначить ответ лучшим', mark_best_answer_path(answer), method: :patch, remote: true
+      = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+        div.form-group
+          = f.label :body, 'Текст'
+          = f.text_area :body, class: 'form-control'
+        p Прикрепить файлы
+        div.form-group
+          = f.fields_for :attachments do |a|
+            = render 'common/attachment_fields', f: a
+            = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'
+        div.actions
+          = f.submit 'Отправить', class: 'btn btn-primary'
 hr.divider

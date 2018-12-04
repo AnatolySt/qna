@@ -10,9 +10,7 @@ $(document).on('turbolinks:load', function(){
 
 var ready = function() {
     $('a.vote_question').bind('ajax:success', function (e) {
-        console.log(e.detail[0]);
         var votes = e.detail[0];
-        var questionId = $(this).data('questionId');
 
         $('.question-votes').html('<p>Рейтинг: ' + votes + '</p>');
     })

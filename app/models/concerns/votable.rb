@@ -2,7 +2,7 @@ module Votable
   extend ActiveSupport::Concern
 
   included do
-    has_many :votes, as: :votable, dependent: :destroy
+    has_many :votes, as: :votable, inverse_of: :votable, dependent: :destroy
   end
 
   def vote_up(user)
@@ -20,8 +20,9 @@ module Votable
   private
 
   def vote(value, user)
-    if votes.where(user: user, value: value).exists?
-      votes.where(user: user).first.destroy
+    ex_vote = votes.where(user: user, value: value)
+    if ex_vote.exists?
+      ex_vote.first.destroy
     else
       votes.create!(value: value, user: user)
     end

@@ -9,7 +9,7 @@ $(document).on('turbolinks:load', function(){
 
 var ready = function() {
     $('a.vote_answer').bind('ajax:success', function (e) {
-        var votes = $.parseJSON(e.detail[0]);
+        var votes = e.detail[0];
         var answerId = $(this).data('answerId');
 
         $('.answer-votes-' + answerId).html('<p>Рейтинг: ' + votes + '</p>');

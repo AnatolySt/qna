@@ -3,7 +3,7 @@ require "selenium/webdriver"
 
 
 RSpec.configure do |config|
-  Capybara.javascript_driver = :selenium_chrome
+  Capybara.javascript_driver = :selenium_chrome_headless
 
   config.include AcceptanceMacros, type: :feature
 
