@@ -12,11 +12,7 @@
                 - if current_user&.author_of?(answer)
                   br
                   = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
-    - if user_signed_in? && !current_user.author_of?(answer)
-      *{ class: "answer-votes-#{answer.id}" }
-        p Рейтинг: #{answer.rating}
-      span = link_to '+', vote_up_answer_path(answer), method: :post, remote: true, data: { answer_id: answer.id, type: :json}, class: 'vote_answer'
-      span = link_to '-', vote_down_answer_path(answer), method: :post, remote: true, data: { answer_id: answer.id, type: :json}, class: 'vote_answer'
+    = render 'common/rating', resource: answer
     div.buttons
       - if current_user&.author_of?(answer)
         = link_to 'Удалить комментарий', answer_path(answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
