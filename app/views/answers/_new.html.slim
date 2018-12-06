@@ -3,8 +3,8 @@
   div.form-group
     = f.label :body, 'Текст'
     = f.text_area :body, class: 'form-control'
+  p Прикрепить файлы
   div.form-group
-    p Прикрепить файлы
     = f.fields_for :attachments do |a|
       = render 'common/attachment_fields', f: a
       = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  it { should have_many(:votes).dependent(:destroy) }
+
   let(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question ) }

@@ -2,14 +2,16 @@ div.question *{ id: "question-#{@question.id}" }
   h1 == @question.title
   p == @question.body
   - if @question.attachments.present?
-    p Прикрепленные файлы:
-    ul
-      - @question.attachments.each do |a|
-        li *{ id: "attachment-#{a.id}" }
-          = link_to a.file.identifier, a.file.url
-          br
-          - if current_user&.author_of?(@question)
-            = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
+    .files
+      p Прикрепленные файлы:
+      ul
+        - @question.attachments.each do |a|
+          li *{ id: "attachment-#{a.id}" }
+            = link_to a.file.identifier, a.file.url
+            br
+            - if current_user&.author_of?(@question)
+              = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
+  = render 'common/rating', resource: @question
 
   - if current_user&.author_of?(@question)
     p = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: { question_id: @question.id }

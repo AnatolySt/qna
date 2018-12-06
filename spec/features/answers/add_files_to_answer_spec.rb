@@ -14,7 +14,7 @@ feature 'Add files to answer' do
     fill_in 'answer_body', with: 'Test Answer Body'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Отправить'
-
+    save_and_open_page
     within '.answers' do
       expect(page).to have_content 'Test Answer Body'
       expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
