@@ -19,3 +19,12 @@ var ready = function() {
 
 $(document).ready(ready);
 $(document).on('turbolinks:load',ready);
+
+App.cable.subscriptions.create('QuestionsChannel', {
+    received: function(data) {
+    $('.questions-list').append(data)
+},
+    connected: function() {
+        console.log('Connected!');
+    }
+});

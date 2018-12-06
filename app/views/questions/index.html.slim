@@ -1,10 +1,9 @@
 h1 Список вопросов
 
-table.table
+table.table.questions-list
   - unless @questions.empty?
-    - @questions.each do |q|
-      tr
-        td.title = link_to q.title, q
+    - @questions.each do |question|
+      = render 'questions/question_list', question: question
   - else
     p
       | Не создано ни одного вопроса
