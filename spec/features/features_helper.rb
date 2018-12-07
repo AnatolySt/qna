@@ -4,6 +4,7 @@ require "selenium/webdriver"
 
 RSpec.configure do |config|
   Capybara.javascript_driver = :selenium_chrome_headless
+  Capybara.server = :puma
 
   config.include AcceptanceMacros, type: :feature
 
