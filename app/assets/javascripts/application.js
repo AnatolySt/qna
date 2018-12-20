@@ -21,3 +21,13 @@
 
 var App = App || {};
 App.cable = ActionCable.createConsumer();
+
+//
+//= require rails-ujs
+//= require activestorage
+//= require turbolinks
+//= require jquery
+//= require jquery.remotipart
+//= require cocoon
+//= require skim
+//= require_tree .

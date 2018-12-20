@@ -7,24 +7,9 @@ $(document).on('turbolinks:load', function(){
     });
 });
 
+$(document).on('ajax:success', 'a.vote_question', function (e) {
+    var votes = e.detail[0];
+    var questionId = $(this).data('votableId');
 
-var ready = function() {
-    $('a.vote_question').bind('ajax:success', function (e) {
-        var votes = e.detail[0];
-        var questionId = $(this).data('votableId');
-
-        $('.question-votes-' + questionId).html('<p>Рейтинг: ' + votes + '</p>');
-    })
-};
-
-$(document).ready(ready);
-$(document).on('turbolinks:load',ready);
-
-App.cable.subscriptions.create('QuestionsChannel', {
-    received: function(data) {
-    $('.questions-list').append(data)
-},
-    connected: function() {
-        console.log('Connected!');
-    }
+    $('.question-votes-' + questionId).html('<p>Рейтинг: ' + votes + '</p>');
 });

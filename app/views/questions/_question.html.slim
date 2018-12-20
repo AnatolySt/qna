@@ -1,4 +1,4 @@
-div.question *{ id: "question-#{@question.id}" }
+div.question data-id="#{@question.id}"
   h1 == @question.title
   p == @question.body
   - if @question.attachments.present?
