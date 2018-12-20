@@ -9,13 +9,13 @@
   .answer id="answer-#{answer.id}"
     .body
       p = answer.body
-        - if attachments.present?
+        - if attachments.length
           .files
             p Прикрепленные файлы:
             ul
-              - attachments.each do |a|
-                li *{ id: "attachment-#{a.id}" }
-                = link_to a.file.identifier, a.file.url
+            - $.each attachments, (index, file)=>
+            li
+              a href="#{file.file_url}" #{file.file_name}
         - if gon.current_user_id && (gon.current_user_id != answer_user_id)
           *{class: "#answer-votes-#{answer.id}"}
             p Рейтинг: #{answer.rating}
