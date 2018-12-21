@@ -1,10 +1,13 @@
 App.cable.subscriptions.create('AnswersChannel', {
 
     connected: function() {
-        var questionId = $('.question').data('id');
+        console.log('ConnectedToAnswers!');
+        var question_id = $('.question').data('id');
 
-        if (questionId) {
-            this.perform('subscribed', { id: questionId })
+        if (question_id) {
+            this.perform('follow_answers', { id: question_id });
+        } else {
+            this.perform('unfollow');
         }
     },
 

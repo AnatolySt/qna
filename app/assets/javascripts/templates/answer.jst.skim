@@ -5,27 +5,27 @@
 - attachments      = @data['answer_attachments']
 - answer_rating    = @data['answer_rating']
 
-- if answer.persisted?
+- if answer.length
   .answer id="answer-#{answer.id}"
     .body
       p = answer.body
-        - if attachments.length
-          .files
-            p Прикрепленные файлы:
-            ul
+      - if attachments.length
+        .files
+          p Прикрепленные файлы:
+          ul
             - $.each attachments, (index, file)=>
             li
               a href="#{file.file_url}" #{file.file_name}
         - if gon.current_user_id && (gon.current_user_id != answer_user_id)
-          *{class: "#answer-votes-#{answer.id}"}
+          div[class = "answer-votes-#{answer.id}"]
             p Рейтинг: #{answer.rating}
             a href="/questions/#{question_id}/answers/#{answer.id}/voteup" data-type='json' data-remote='true' rel='nofollow' data-method='post' data-answer-id="#{answer.id}" class='vote_answer'
             |+
             |  |
             a href="/questions/#{question_id}/answers/#{answer.id}/votedown" data-type='json' data-remote='true' rel='nofollow' data-method='post' data-answer-id="#{answer.id}" class='vote_answer'
             |-
-      div.buttons
-        - if gon.current_user_id == question_user_id
-          a href="/questions/#{question_id}/answers/#{answer.id}/best" data-method='patch' data-remote='true' class='mark-best' Mark as best
-          |  |
+            div.buttons
+              - if gon.current_user_id == question_user_id
+                a href="/questions/#{question_id}/answers/#{answer.id}/best" data-method='patch' data-remote='true' class='mark-best' Mark as best
+                |  |
 hr.divider

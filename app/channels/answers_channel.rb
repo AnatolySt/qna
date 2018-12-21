@@ -1,5 +1,9 @@
 class AnswersChannel < ApplicationCable::Channel
-  def subscribed(data)
-    stream_from "question-#{data['id']}"
+  def follow_answers(data)
+    stream_from "question_#{data['id']}"
+  end
+
+  def unfollow
+    stop_all_streams
   end
 end

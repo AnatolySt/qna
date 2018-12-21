@@ -45,7 +45,7 @@ class AnswersController < ApplicationController
         answer: @answer,
         answer_user_id: current_user.id,
         question_id: @question.id,
-        question_user_id: @question.user.id,
+        question_user_id: @question.user_id,
         answer_rating: @answer.rating,
         attachments: attachments
     }
