@@ -1,4 +1,4 @@
-div.question *{ id: "question-#{@question.id}" }
+div.question data-id="#{@question.id}"
   h1 == @question.title
   p == @question.body
   - if @question.attachments.present?
@@ -6,7 +6,7 @@ div.question *{ id: "question-#{@question.id}" }
       p Прикрепленные файлы:
       ul
         - @question.attachments.each do |a|
-          li *{ id: "attachment-#{a.id}" }
+          li *{id: "attachment-#{a.id}"}
             = link_to a.file.identifier, a.file.url
             br
             - if current_user&.author_of?(@question)
@@ -14,8 +14,8 @@ div.question *{ id: "question-#{@question.id}" }
   = render 'common/rating', resource: @question
 
   - if current_user&.author_of?(@question)
-    p = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: { question_id: @question.id }
-    = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}" } do |f|
+    p = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: {question_id: @question.id}
+    = form_for @question, remote: true, html: {id: "edit-question-#{@question.id}"} do |f|
       div.form-group
         = f.label :title, 'Заголовок'
         = f.text_field :title, class: 'form-control'

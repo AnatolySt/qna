@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
   before_action :set_question, only: [:create]
   before_action :set_answer, only: [:update, :destroy, :mark_best]
 
+  after_action :publish_answer, only: [:create]
+
   def new
     @answer = Answer.new
   end
@@ -30,6 +32,26 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    attachments = []
+    @answer.attachments.each do |a|
+      attachments << { id: a.id, url: a.file.url, name: a.file.identifier }
+    end
+
+    data = {
+        answer: @answer,
+        answer_user_id: current_user.id,
+        question_id: @question.id,
+        question_user_id: @question.user_id,
+        answer_rating: @answer.rating,
+        attachments: attachments
+    }
+
+    ActionCable.server.broadcast("question-#{@question.id}", data )
+  end
 
   def set_answer
     @answer = Answer.find(params[:id])
