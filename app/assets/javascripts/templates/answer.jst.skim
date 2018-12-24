@@ -2,30 +2,29 @@
 - question_id      = @data['question_id']
 - answer_user_id   = @data['answer_user_id']
 - answer           = @data['answer']
-- attachments      = @data['answer_attachments']
+- attachments      = @data['answer']['attachments']
 - answer_rating    = @data['answer_rating']
 
-- if answer.length
-  .answer id="answer-#{answer.id}"
-    .body
-      p = answer.body
-      - if attachments.length
-        .files
-          p Прикрепленные файлы:
-          ul
-            - $.each attachments, (index, file)=>
+.answer id="answer-#{answer.id}"
+  .body
+    p = answer.body
+    - if attachments
+      .files
+        p Прикрепленные файлы:
+        ul
+          - $.each attachments, (index, file) =>
             li
               a href="#{file.file_url}" #{file.file_name}
-        - if gon.current_user_id && (gon.current_user_id != answer_user_id)
-          div[class = "answer-votes-#{answer.id}"]
-            p Рейтинг: #{answer.rating}
-            a href="/questions/#{question_id}/answers/#{answer.id}/voteup" data-type='json' data-remote='true' rel='nofollow' data-method='post' data-answer-id="#{answer.id}" class='vote_answer'
-            |+
-            |  |
-            a href="/questions/#{question_id}/answers/#{answer.id}/votedown" data-type='json' data-remote='true' rel='nofollow' data-method='post' data-answer-id="#{answer.id}" class='vote_answer'
-            |-
-            div.buttons
-              - if gon.current_user_id == question_user_id
-                a href="/questions/#{question_id}/answers/#{answer.id}/best" data-method='patch' data-remote='true' class='mark-best' Mark as best
-                |  |
+    - if gon.current_user_id && (gon.current_user_id != answer_user_id)
+      div[class = "answer-votes-#{answer.id}"]
+        p Рейтинг: #{answer.rating}
+        a href="/questions/#{question_id}/answers/#{answer.id}/voteup" data-type='json' data-remote='true' rel='nofollow' data-method='post' data-answer-id="#{answer.id}" class='vote_answer'
+        |+
+        |  |
+        a href="/questions/#{question_id}/answers/#{answer.id}/votedown" data-type='json' data-remote='true' rel='nofollow' data-method='post' data-answer-id="#{answer.id}" class='vote_answer'
+        |-
+    - if gon.current_user_id == question_user_id
+      div.buttons
+        a href="/questions/#{question_id}/answers/#{answer.id}/best" data-method='patch' data-remote='true' class='mark-best' Mark as best
+        |  |
 hr.divider
