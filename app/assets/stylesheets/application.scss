@@ -36,6 +36,10 @@ form + p {
   display: none;
 }
 
+.new_comment {
+  display: none;
+}
+
 .answers {
   display: flex;
   flex-direction: column;

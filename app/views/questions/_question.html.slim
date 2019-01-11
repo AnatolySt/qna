@@ -29,3 +29,5 @@ div.question data-id="#{@question.id}"
         = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'
       div.actions
         = f.submit 'Изменить', class: 'btn btn-primary'
+  .question-comments
+    = render 'comments/comments', resource: @question

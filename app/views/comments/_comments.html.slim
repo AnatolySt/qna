@@ -1,0 +1,16 @@
+.comments
+  .comments-list id="comments-#{resource.class.to_s.underscore}-#{resource.id}"
+    - if resource.comments.any?
+      = render resource.comments
+    - if user_signed_in?
+      = link_to "Добавить комментарий", '', class: 'add_comment_link', data: { resource_id: resource.id }, remote: true
+
+  .comment-form
+    = form_for [resource, resource.comments.build], remote: true, html: {class: "new_comment", id: "#{resource.id}"} do |f|
+      .field
+        = f.label :body, 'Ваш комментарий'
+        br
+        = f.text_area :body
+      .actions
+        = button_tag 'Добавить комментарий'
+  .comment-errors
