@@ -3,6 +3,5 @@ App.cable.subscriptions.create('QuestionsChannel', {
         $('.questions-list').append(data)
     },
     connected: function() {
-        console.log('Connected!');
     }
 });

@@ -1,7 +1,6 @@
 App.cable.subscriptions.create('AnswersChannel', {
 
     connected: function() {
-        console.log('ConnectedToAnswers!');
         var question_id = $('.question').data('id');
 
         if (question_id) {
@@ -15,9 +14,7 @@ App.cable.subscriptions.create('AnswersChannel', {
         var current_user = gon.current_user_id;
         answer_user_id = data["answer_user_id"];
 
-        console.log(data);
-        console.log(current_user);
-        if ( answer_user_id != current_user ) {
+        if ( answer_user_id !== current_user ) {
             $('.answers').append(JST["templates/answer"]({ data: data }));
         }
     }

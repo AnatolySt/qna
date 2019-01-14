@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
 
   before_action :set_commentable, only: :create
+  after_action :publish_comment, only: :create
 
   def create
     @comment = @commentable.comments.new(comment_params)
@@ -25,6 +26,21 @@ class CommentsController < ApplicationController
     elsif params[:answer_id].present?
       @commentable = Answer.find(params[:answer_id])
     end
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+
+    data = {
+        commentable_id: @comment.commentable_id,
+        commentable_type: @comment.commentable_type.downcase,
+        comment: @comment,
+    }
+
+    ActionCable.server.broadcast(
+                          "comments-for-#{@comment.commentable_type == 'Question' ? @commentable.id : @commentable.question_id }",
+                          data
+    )
   end
 
 end
