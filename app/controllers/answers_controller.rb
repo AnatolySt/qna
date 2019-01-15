@@ -7,14 +7,15 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: [:create]
 
+  respond_to :js, :json
+
   def new
-    @answer = Answer.new
+    respond_with(@answer = Answer.new)
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    @answer.save
+    @answer = current_user.answers.create(answer_params.merge(question_id: @question.id))
+    respond_with(@answer)
   end
 
   def update
@@ -22,13 +23,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-    end
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def mark_best
-    @answer.best_switch
+    respond_with(@answer.best_switch)
   end
 
   private
