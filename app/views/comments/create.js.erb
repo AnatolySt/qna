@@ -1,0 +1,4 @@
+$('#comments-<%= @commentable.class.to_s.underscore %>-<%= @commentable.id %>').append('<%= j render @comment %>');
+<% if @comment.errors.present? %>
+$('.comments-errors').append('<%= render 'common/errors', resource: @comments %>');
+<% end %>

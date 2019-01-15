@@ -7,15 +7,9 @@ $(document).on('turbolinks:load', function(){
     });
 });
 
+$(document).on('ajax:success', 'a.vote_question', function (e) {
+    var votes = e.detail[0];
+    var questionId = $(this).data('votableId');
 
-var ready = function() {
-    $('a.vote_question').bind('ajax:success', function (e) {
-        var votes = e.detail[0];
-        var questionId = $(this).data('votableId');
-
-        $('.question-votes-' + questionId).html('<p>Рейтинг: ' + votes + '</p>');
-    })
-};
-
-$(document).ready(ready);
-$(document).on('turbolinks:load',ready);
+    $('.question-votes-' + questionId).html('<p>Рейтинг: ' + votes + '</p>');
+});

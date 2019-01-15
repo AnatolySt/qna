@@ -31,4 +31,6 @@
             = link_to_add_association 'Добавить еще файл', f, :attachments, partial: 'common/attachment_fields'
         div.actions
           = f.submit 'Отправить', class: 'btn btn-primary'
+  .answer-comments
+    = render 'comments/comments', resource: answer
 hr.divider
