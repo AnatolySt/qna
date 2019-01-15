@@ -31,15 +31,9 @@ class CommentsController < ApplicationController
   def publish_comment
     return if @comment.errors.any?
 
-    data = {
-        commentable_id: @comment.commentable_id,
-        commentable_type: @comment.commentable_type.downcase,
-        comment: @comment,
-    }
-
     ActionCable.server.broadcast(
                           "comments-for-#{@comment.commentable_type == 'Question' ? @commentable.id : @commentable.question_id }",
-                          data
+                          @comment
     )
   end
 
