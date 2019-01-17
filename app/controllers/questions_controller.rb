@@ -3,33 +3,27 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :build_answer, only: :show
 
   after_action :publish_question, only: [:create]
 
+  respond_to :js, :json
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.attachments.build
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
-
-    if @question.save
-      redirect_to @question
-    else
-      flash[:notice] = 'Ошибка. Попробуйте еще раз.'
-      render :new
-    end
+    @question = current_user.questions.create(question_params)
+    respond_with @question
   end
 
   def edit
@@ -37,16 +31,11 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      flash[:notice] = 'Ваш вопрос был удален.'
-    else
-      flash[:notice] = 'Вы не являетесь автором вопроса'
-    end
-    redirect_to questions_path
+    respond_with(@question.destroy) if current_user.author_of?(@question)
   end
 
   private
@@ -60,6 +49,10 @@ class QuestionsController < ApplicationController
           locals: { question: @question }
         )
     )
+  end
+
+  def build_answer
+    @answer = @question.answers.build
   end
 
   def set_question
