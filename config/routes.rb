@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
-  root to: "questions#index"
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   concern :votable do
     member do
@@ -22,6 +21,8 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: [:destroy]
+
+  root to: "questions#index"
 
   mount ActionCable.server => '/cable'
 end
