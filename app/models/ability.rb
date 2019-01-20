@@ -14,6 +14,11 @@ class Ability
     end
   end
 
+  def set_aliases
+    alias_action :update, :destroy, :to => :modify
+    alias_action :vote_up, :vote_down, :to => :modify
+  end
+
   def guest_abilities
     can :read, :all
   end
@@ -28,7 +33,7 @@ class Ability
     can [:update, :destroy], [Question, Answer], user_id: user.id
     can [:vote_up, :vote_down], [Question, Answer]
     cannot [:vote_up, :vote_down],[Question, Answer], user_id: user.id
-    can :best, Answer, question: { user_id: user.id }
+    can :mark_best, Answer, question: { user_id: user.id }
   end
 
 end

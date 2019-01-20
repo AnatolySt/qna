@@ -1,4 +1,4 @@
-- if user_signed_in? && !current_user.author_of?(resource)
+- if can?(:vote, resource)
   *{ class: "#{resource.class.name.downcase}-votes-#{resource.id}" }
     p Рейтинг: #{resource.rating}
   = link_to '+', polymorphic_path(resource, action: :vote_up), method: :post, remote: true, data: { votable_id: "#{resource.id}", type: :json }, class: "vote_#{resource.class.name.downcase}"

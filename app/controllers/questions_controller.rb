@@ -55,6 +55,7 @@ class QuestionsController < ApplicationController
 
   def build_answer
     @answer = @question.answers.build
+    @answer.attachments.build
   end
 
   def set_question
