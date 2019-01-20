@@ -9,15 +9,15 @@
             - answer.attachments.each do |a|
               li *{ id: "attachment-#{a.id}" }
                 = link_to a.file.identifier, a.file.url
-                - if current_user&.author_of?(answer)
+                - if can?(:update, answer)
                   br
                   = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
     = render 'common/rating', resource: answer
     div.buttons
-      - if current_user&.author_of?(answer)
-        = link_to 'Удалить комментарий', answer_path(answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
+      - if can?(:update, answer)
+        = link_to 'Удалить ответ', answer_path(answer), method: :delete, data: { confirm: 'Вы уверены?' }, remote: true
         = link_to 'Редактировать', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-      - if current_user&.author_of?(answer.question)
+      - if can?(:mark_best, answer)
         - if !answer.best?
           = link_to 'Назначить ответ лучшим', mark_best_answer_path(answer), method: :patch, remote: true
       = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|

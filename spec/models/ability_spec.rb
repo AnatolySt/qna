@@ -33,31 +33,26 @@ describe Ability do
 
     context 'Question' do
       it { should be_able_to :create, Question }
-      it { should be_able_to :destroy, Question, user: user }
 
-      it { should be_able_to :update, question, user: user}
-      it { should_not be_able_to :update, other_question, user: user }
+      it { should be_able_to :modify, question, user: user}
+      it { should_not be_able_to :modify, other_question, user: user }
 
-      it { should be_able_to :vote_up, other_question, user: user }
-      it { should be_able_to :vote_down, other_question, user: user }
-      it { should_not be_able_to :vote_up, question, user: user }
-      it { should_not be_able_to :vote_down, question, user: user }
+      it { should be_able_to :vote, other_question, user: user }
+      it { should_not be_able_to :vote, question, user: user }
     end
 
 
     context 'Answer' do
       it { should be_able_to :create, Answer }
 
-      it { should be_able_to :update, answer, user: user }
-      it { should_not be_able_to :update, other_answer, user: user }
+      it { should be_able_to :modify, answer, user: user }
+      it { should_not be_able_to :modify, other_answer, user: user }
 
-      it { should be_able_to :vote_up, other_answer, user: user }
-      it { should be_able_to :vote_down, other_answer, user: user }
-      it { should_not be_able_to :vote_up, answer, user: user }
-      it { should_not be_able_to :vote_down, answer, user: user }
+      it { should be_able_to :vote, other_answer, user: user }
+      it { should_not be_able_to :vote, answer, user: user }
 
-      it { should be_able_to :best, answer, user: user }
-      it { should_not be_able_to :best, other_answer, user: user }
+      it { should be_able_to :mark_best, answer, user: user }
+      it { should_not be_able_to :mark_best, other_answer, user: user }
     end
 
     context 'comment' do

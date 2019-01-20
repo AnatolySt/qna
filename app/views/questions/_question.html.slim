@@ -9,11 +9,11 @@ div.question data-id="#{@question.id}"
           li *{id: "attachment-#{a.id}"}
             = link_to a.file.identifier, a.file.url
             br
-            - if current_user&.author_of?(@question)
+            - if can?(:modify, @question)
               = link_to 'Удалить файл', attachment_path(a), method: :delete, data: {confirm: 'Вы уверены?'}, remote: true
   = render 'common/rating', resource: @question
 
-  - if current_user&.author_of?(@question)
+  - if can?(:modify, @question)
     p = link_to 'Редактировать вопрос', '', class: 'edit-question-link', data: {question_id: @question.id}
     = form_for @question, remote: true, html: {id: "edit-question-#{@question.id}"} do |f|
       div.form-group

@@ -2,7 +2,7 @@
   .comments-list id="comments-#{resource.class.to_s.underscore}-#{resource.id}"
     - if resource.comments.any?
       = render resource.comments
-    - if user_signed_in?
+    - if can?(:create, Comment)
       = link_to "Добавить комментарий", '', class: 'add_comment_link', data: { resource_id: resource.id }, remote: true
 
   .comment-form

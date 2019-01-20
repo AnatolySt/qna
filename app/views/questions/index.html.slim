@@ -8,4 +8,5 @@ table.table.questions-list
     p
       | Не создано ни одного вопроса
 
-== link_to 'Создать вопрос', new_question_path
+- if can?(:create, Question)
+  == link_to 'Создать вопрос', new_question_path
