@@ -22,7 +22,7 @@ describe 'Profile API' do
       before { get '/api/v1/profiles/me', params: { format: :json, access_token: access_token.token } }
 
       it 'returns 200 status' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       %w(id email created_at updated_at admin).each do |attr|

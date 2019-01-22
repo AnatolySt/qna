@@ -13,7 +13,7 @@ Doorkeeper.configure do
   # every time somebody will try to access the admin web interface.
   #
   admin_authenticator do
-    current_user.try(:admin?) || warden.authenticate!(scope: :user)
+    current_user.try(:admin?) || redirect_to(new_user_session_path)
   end
 
   # If you are planning to use Doorkeeper in Rails 5 API-only application, then you might
