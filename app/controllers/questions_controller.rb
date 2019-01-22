@@ -9,6 +9,8 @@ class QuestionsController < ApplicationController
 
   respond_to :js, :json
 
+  authorize_resource
+
   def index
     respond_with(@questions = Question.all)
   end
@@ -35,7 +37,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    respond_with(@question.destroy) if current_user.author_of?(@question)
+    respond_with(@question.destroy)
   end
 
   private
@@ -53,6 +55,7 @@ class QuestionsController < ApplicationController
 
   def build_answer
     @answer = @question.answers.build
+    @answer.attachments.build
   end
 
   def set_question

@@ -6,8 +6,9 @@ div.answers
   - else
     p 'Ответов нет'
 
-h2 Добавить ответ
-div.answer-errors
-= render 'answers/new', answer: @answer
+- if can?(:create, Answer)
+    h2 Добавить ответ
+    div.answer-errors
+    = render 'answers/new', answer: @answer
 
 p == link_to 'Перейти к списку вопросов', questions_path

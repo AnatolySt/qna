@@ -9,6 +9,8 @@ class AnswersController < ApplicationController
 
   respond_to :js, :json
 
+  authorize_resource
+
   def new
     respond_with(@answer = Answer.new)
   end
@@ -23,7 +25,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    respond_with(@answer.destroy) if current_user.author_of?(@answer)
+    respond_with(@answer.destroy)
   end
 
   def mark_best
