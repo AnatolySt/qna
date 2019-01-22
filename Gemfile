@@ -36,6 +36,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'shoulda-matchers', '4.0.0.rc1'
   gem 'rails-controller-testing'
+  gem 'json_spec'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -53,4 +54,4 @@ gem 'omniauth'
 gem 'omniauth-vkontakte'
 gem 'omniauth-github'
 gem 'cancancan', '~> 2.0'
-gem 'doorkeeper'
+gem 'doorkeeper', '4.2.6'
