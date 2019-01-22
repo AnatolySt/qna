@@ -11,6 +11,11 @@ class Api::V1::ProfilesController < ApplicationController
     respond_with current_resource_owner
   end
 
+  def index
+    @users = User.where.not(id: current_resource_owner)
+    respond_with @users
+  end
+
   private
 
   def current_resource_owner
