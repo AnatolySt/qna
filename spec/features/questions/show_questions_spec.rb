@@ -1,4 +1,4 @@
-require_relative '../features_helper'
+require_relative '../../tures_helper.rb'
 
 feature 'Show list of questions', %q{
   In order to see community problems

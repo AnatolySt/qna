@@ -1,4 +1,4 @@
-require_relative '../features_helper'
+require_relative '../../tures_helper'
 
 feature 'User can update his question' do
   given(:user) { create(:user) }

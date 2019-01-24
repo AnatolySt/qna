@@ -1,4 +1,4 @@
-require_relative '../features_helper'
+require_relative '../../tures_helper'
 
 feature 'Create question', %q{
   In order to get answer from community
