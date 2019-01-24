@@ -34,6 +34,8 @@ class Ability
     can :vote, [Question, Answer]
     cannot :vote,[Question, Answer], user_id: user.id
     can :mark_best, Answer, question: { user_id: user.id }
+    can :me, User
+    can :index, User
   end
 
 end
