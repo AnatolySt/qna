@@ -22,6 +22,7 @@ require 'rspec/rails'
 # require only the support files necessary.
 #
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec', 'support/shared_examples/', '**', '*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/controllers/shared_examples/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/models/concerns/**/*.rb')].each { |f| require f }
 
