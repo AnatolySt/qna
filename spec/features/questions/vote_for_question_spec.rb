@@ -1,49 +1,9 @@
-require_relative '../features_helper'
+require 'features_helper'
 
-feature "User can vote for answer" do
+feature "User can vote for question" do
 
-  given(:user) { create(:user) }
-  given(:author) { create(:user) }
-  given(:question) { create(:question, user: author) }
+  let(:container) { '.question' }
 
-  context 'Authenticated user' do
-
-    scenario 'User can vote for question', js: true do
-      sign_in(user)
-      visit question_path(question)
-      within '.question' do
-        click_on '+'
-        expect(page).to have_content('Рейтинг: 1')
-      end
-    end
-
-    scenario "User can't vote for his own question", js: true do
-      sign_in(author)
-      visit question_path(question)
-      within '.question' do
-        expect(page).to_not have_content '+'
-      end
-    end
-
-    scenario "User can't vote for question twice", js: true do
-      sign_in(user)
-      visit question_path(question)
-      within '.question' do
-        click_on '+'
-        click_on '+'
-        expect(page).to have_content('Рейтинг: 1')
-      end
-    end
-
-  end
-
-  context 'Non-authenticated user' do
-    scenario "Guests can't vote" do
-      visit question_path(question)
-      within '.question' do
-        expect(page).to_not have_content '+'
-      end
-    end
-  end
+  it_behaves_like 'Vote ability'
 
 end
