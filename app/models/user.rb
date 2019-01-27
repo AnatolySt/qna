@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :authorizations
 
+  after_create :new_answer_notification
+
   def author_of?(resource)
     resource.user_id == id
   end
@@ -41,6 +43,10 @@ class User < ApplicationRecord
     find_each.each do |user|
       DailyMailer.digest(user).deliver_now
     end
+  end
+
+  def new_answer_notification
+    NewAnswerNotificationJob.perform_later(self)
   end
 
 end
