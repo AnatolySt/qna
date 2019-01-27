@@ -1,4 +1,4 @@
-require_relative '../../tures_helper'
+require 'features_helper'
 
 feature 'Add files to answer' do
 

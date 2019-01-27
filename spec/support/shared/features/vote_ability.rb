@@ -1,6 +1,6 @@
-require_relative '../features_helper'
+require 'rails_helper'
 
-shared_example 'Vote ability' do
+shared_examples_for 'Vote ability' do
 
   let(:author) { create(:user) }
   let(:user) { create(:user) }

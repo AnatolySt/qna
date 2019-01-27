@@ -1,4 +1,4 @@
-require_relative '../tures_helper'
+require 'features_helper'
 
 feature 'User can sign in', %q{
   In order to be able to ask questions

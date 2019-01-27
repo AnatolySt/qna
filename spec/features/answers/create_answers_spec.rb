@@ -1,4 +1,4 @@
-require_relative '../../tures_helper'
+require 'features_helper'
 
 feature 'User can answer the question on question page' do
 

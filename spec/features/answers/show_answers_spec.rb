@@ -1,4 +1,4 @@
-require_relative '../../tures_helper'
+require 'features_helper'
 
 feature 'Show question and answers for' do
 

@@ -1,4 +1,4 @@
-require_relative "../features_helper.rb"
+require 'features_helper'
 
 feature "User can vote for question" do
 
