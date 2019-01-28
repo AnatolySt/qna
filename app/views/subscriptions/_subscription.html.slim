@@ -1,0 +1,6 @@
+.sub-errors
+.sub-info
+  - if subscription = current_user.subscribed_for?(question)
+    = render 'subscriptions/unsubscribe', subscription: subscription
+  - else
+    = render 'subscriptions/subscribe', question: question

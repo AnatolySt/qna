@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :questions
   has_many :votes, dependent: :destroy
   has_many :authorizations
+  has_many :subscriptions
 
   after_create :new_answer_notification
 
@@ -47,6 +48,11 @@ class User < ApplicationRecord
 
   def new_answer_notification
     NewAnswerNotificationJob.perform_later(self)
+  end
+
+  def subscribed_for?(question)
+    subscriptions.each { |s| return s if s.question == question }
+    false
   end
 
 end
