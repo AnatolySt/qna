@@ -1,6 +1,6 @@
 class AnswersMailer < ApplicationMailer
-  def notify_question_author(answer)
+  def notify_answer(answer, user)
     @question = answer.question
-    mail to: @question.user.email
+    mail to: user.email
   end
 end

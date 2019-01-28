@@ -10,8 +10,6 @@ class User < ApplicationRecord
   has_many :authorizations
   has_many :subscriptions
 
-  after_create :new_answer_notification
-
   def author_of?(resource)
     resource.user_id == id
   end
@@ -44,10 +42,6 @@ class User < ApplicationRecord
     find_each.each do |user|
       DailyMailer.digest(user).deliver_now
     end
-  end
-
-  def new_answer_notification
-    NewAnswerNotificationJob.perform_later(self)
   end
 
   def subscribed_for?(question)

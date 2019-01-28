@@ -6,6 +6,8 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
 
+  after_create :new_answer_notification
+
   accepts_nested_attributes_for :attachments, reject_if: :all_blank
 
   validates :body, presence: true
@@ -15,6 +17,10 @@ class Answer < ApplicationRecord
       question.answers.where(best: true).update_all(best: false)
       update!(best: true)
     end
+  end
+
+  def new_answer_notification
+    NotifySubscribersJob.perform_later(self)
   end
 
 end
