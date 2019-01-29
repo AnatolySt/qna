@@ -45,8 +45,7 @@ class User < ApplicationRecord
   end
 
   def subscribed_for?(question)
-    subscriptions.each { |s| return s if s.question == question }
-    false
+    subscriptions.exists?(question: question)
   end
 
 end

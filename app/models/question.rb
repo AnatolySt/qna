@@ -15,6 +15,8 @@ class Question < ApplicationRecord
 
   scope :digest, -> { where("created_at > ?", 1.day.ago) }
 
+  private
+
   def subscribe_author
     subscriptions.create(user: user)
   end
