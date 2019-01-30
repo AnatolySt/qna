@@ -1,0 +1,6 @@
+<% if @subscription.errors.present? %>
+$('.sub-errors').append('<%= render 'common/errors', resource: @subscription %>');
+<% else %>
+$('.subscribe_question').remove();
+$('.sub-info').append('<%= render 'subscriptions/unsubscribe', subscription: @subscription %>');
+<% end %>

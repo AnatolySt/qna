@@ -1,4 +1,7 @@
 div.question data-id="#{@question.id}"
+  - if can?(:use, Subscription)
+    .subscription
+      = render 'subscriptions/subscription', question: @question
   h1 == @question.title
   p == @question.body
   - if @question.attachments.present?

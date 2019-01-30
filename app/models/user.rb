@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :questions
   has_many :votes, dependent: :destroy
   has_many :authorizations
+  has_many :subscriptions
 
   def author_of?(resource)
     resource.user_id == id
@@ -35,6 +36,16 @@ class User < ApplicationRecord
       user.authorizations.create(provider: auth.provider, uid: auth.uid)
     end
     user
+  end
+
+  def self.send_daily_digest
+    find_each.each do |user|
+      DailyMailer.digest(user).deliver_now
+    end
+  end
+
+  def subscribed_for?(question)
+    subscriptions.exists?(question: question)
   end
 
 end
