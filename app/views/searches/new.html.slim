@@ -1,0 +1,15 @@
+h1 Поиск
+
+= form_tag search_path, method: :get
+  .field
+    = label_tag 'Область поиска'
+    br
+    = select_tag 'search[type]', options_from_collection_for_select(@search_types, 'first', 'last')
+
+  .field
+    = label_tag 'Текст'
+    br
+    = text_field_tag 'search[text]'
+
+  .actions
+    = submit_tag 'Искать'

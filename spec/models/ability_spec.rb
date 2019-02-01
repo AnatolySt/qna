@@ -10,6 +10,7 @@ describe Ability do
     it { should be_able_to :read, Question }
     it { should be_able_to :read, Answer }
     it { should be_able_to :read, Comment }
+    it { should be_able_to :read, :search }
 
     it { should_not be_able_to :manage, :all }
   end
@@ -62,6 +63,10 @@ describe Ability do
     context 'subscription' do
       it { should be_able_to :create, Subscription }
       it { should be_able_to :destroy, Subscription }
+    end
+
+    context 'search' do
+      it { should be_able_to :create, :search }
     end
   end
 
