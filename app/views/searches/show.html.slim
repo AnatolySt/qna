@@ -1,0 +1,9 @@
+h1 Результаты поиска
+
+.search-results
+  p = link_to 'Новый поиск', new_search_path
+  p Найдено #{@search.size} результатов:
+  hr
+  - @search.each do |result|
+    = render "searches/#{result.class.to_s.underscore}", resource: result
+    hr

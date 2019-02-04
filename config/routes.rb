@@ -37,5 +37,8 @@ Rails.application.routes.draw do
 
   root to: "questions#index"
 
+  get "new_search", to: 'searches#new'
+  get "search", to: 'searches#create'
+
   mount ActionCable.server => '/cable'
 end
