@@ -31,4 +31,3 @@
 .idea
 /config/development.sphinx.conf
 /db/sphinx
-/config/credentials.yml.enc
