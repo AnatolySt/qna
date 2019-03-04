@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :questions
   has_many :votes, dependent: :destroy
   has_many :authorizations
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(resource)
     resource.user_id == id
@@ -45,7 +45,8 @@ class User < ApplicationRecord
   end
 
   def subscribed_for?(question)
-    subscriptions.exists?(question: question)
+    subscriptions.each { |s| return s if s.question == question }
+    false
   end
 
 end

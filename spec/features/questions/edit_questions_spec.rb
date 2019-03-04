@@ -4,6 +4,7 @@ feature 'User can update his question' do
   given(:user) { create(:user) }
   given(:other_user) { create(:user) }
   given(:question) { create(:question, user: user) }
+  let!(:ability) { Ability.new(user) }
 
   scenario 'Unauthenticated user do not see edit link' do
     visit question_path(question)

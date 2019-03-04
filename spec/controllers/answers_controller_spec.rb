@@ -6,6 +6,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
+  let!(:ability) { Ability.new(user) }
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -35,16 +36,15 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     sign_in_user
-    let(:author_answer) { create(:answer, question: question, user: @user) }
+    let!(:author_answer) { create(:answer, question: question, user: @user) }
 
     context 'author delete his answer' do
       it 'deletes answer' do
-        author_answer
         expect { delete :destroy, params: { id: author_answer, question_id: question }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirect to index view' do
-        delete :destroy, params: { question_id: question.id, id: answer.id, format: :js }
+      it 'render destroy.js' do
+        delete :destroy, params: { question_id: question.id, id: author_answer }, format: :js
         expect(response).to render_template :destroy
       end
     end
@@ -54,32 +54,30 @@ RSpec.describe AnswersController, type: :controller do
         answer
         expect { delete :destroy, params: { id: answer, question_id: question, format: :js } }.to_not change(question.answers, :count)
       end
-
-      it 'redirect to index view' do
-        delete :destroy, params: { question_id: question.id, id: answer.id, format: :js }
-        expect(response).to render_template :destroy
-      end
     end
 
     describe 'PATCH #update' do
-      sign_in_user
+      before do
+        sign_in(user)
+      end
+
+      let!(:author_answer) { create(:answer, question: question, user: user) }
+
       context 'with valid attributes' do
         it 'assigns the requested answer to @answer' do
-          patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer), format: :js }
-          expect(assigns(:answer)).to eq answer
+          patch :update, params: { id: author_answer, question_id: question, answer: attributes_for(:answer), format: :js }
+          expect(assigns(:answer)).to eq author_answer
         end
         it 'updates the attributes' do
-          patch :update, params: { id: answer, question_id: question, answer: { body: 'new body'}, format: :js }
-          answer.reload
-          expect(answer.body).to eq 'new body'
+          patch :update, params: { id: author_answer, question_id: question, answer: { body: 'new body' }, format: :js }
+          author_answer.reload
+          expect(author_answer.body).to eq 'new body'
         end
         it 'render update template' do
-          patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer), format: :js }
+          patch :update, params: { id: author_answer, question_id: question, answer: attributes_for(:answer), format: :js }
           expect(response).to render_template :update
         end
       end
     end
-
-
   end
 end

@@ -3,6 +3,7 @@ require 'features_helper'
 feature 'Add files to question' do
 
   given(:user) { create(:user) }
+  let!(:ability) { Ability.new(user) }
 
   background do
     sign_in(user)
@@ -12,6 +13,7 @@ feature 'Add files to question' do
   scenario 'User add files when asks question' do
     fill_in 'question_title', with: 'Test Question Title'
     fill_in 'question_body', with: 'Test Question Body'
+    click_on 'Добавить еще файл'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Отправить'
 

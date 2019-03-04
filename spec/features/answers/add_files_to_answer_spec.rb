@@ -4,6 +4,7 @@ feature 'Add files to answer' do
 
   given(:user) { create(:user) }
   given(:question) { create(:question) }
+  let!(:ability) { Ability.new(user) }
 
   background do
     sign_in(user)

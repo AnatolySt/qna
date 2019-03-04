@@ -4,6 +4,7 @@ feature 'User can answer the question on question page' do
 
   given(:user) { create(:user) }
   given(:question) { create(:question) }
+  let!(:ability) { Ability.new(user) }
 
   context 'Authenticated user' do
 
@@ -61,9 +62,7 @@ feature 'User can answer the question on question page' do
 
     scenario 'Non-authenticated user try to answer the question' do
       visit question_path(question)
-      fill_in 'answer_body', with: 'Answer testing'
-      click_on 'Отправить'
-      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      expect(page).to_not have_field 'answer_body'
     end
 
   end
