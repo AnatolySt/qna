@@ -6,13 +6,14 @@ RSpec.describe AttachmentsController, type: :controller do
   let(:question) { create(:question, user: user) }
   let!(:attachment) { create(:attachment, attachable: question) }
   let(:other_user) { create(:user) }
+  let!(:ability) { Ability.new(user) }
 
   describe 'DELETE #destroy' do
 
     context 'author delete his attachment' do
       it 'deletes attachment' do
         sign_in(user)
-        expect { delete :destroy, params: { id: attachment }, format: :js }.to change(question.attachments, :count).by(-1)
+        expect { delete :destroy, params: { id: attachment, user: user }, format: :js }.to change(question.attachments, :count).by(-1)
       end
     end
 

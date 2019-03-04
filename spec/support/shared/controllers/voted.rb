@@ -10,11 +10,12 @@ shared_examples 'voted' do
   let(:resource_params) { { id: resource } }
   let(:owned_resource) { create(resource_name, user: @user) }
   let(:owned_resource_params) { { id: resource } }
+  let!(:ability) { Ability.new(@user) }
 
   before do
     if resource_name == :answer
       resource_params[:question_id] = resource.question
-      owned_resource_params[:question_id] = resource.question
+      owned_resource_params[:question_id] = owned_resource.question
     end
   end
 
@@ -22,12 +23,12 @@ shared_examples 'voted' do
 
     context 'resource non-owner' do
       it 'increase votes by 1' do
-        post :vote_up, params: resource_params, format: :js
+        post :vote_up, params: resource_params, format: :json
         expect(resource.rating).to eq(1)
       end
 
       it 'saves the vote in database' do
-        expect { post :vote_up, params: resource_params, format: :js }.to change(resource.votes, :count).by(1)
+        expect { post :vote_up, params: resource_params, format: :json }.to change(resource.votes, :count).by(1)
       end
     end
 

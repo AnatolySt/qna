@@ -29,5 +29,6 @@
 
 /config/database.yml
 .idea
+.idea/*
 /config/development.sphinx.conf
 /db/sphinx

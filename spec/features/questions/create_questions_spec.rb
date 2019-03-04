@@ -7,6 +7,7 @@ feature 'Create question', %q{
 } do
 
   given(:user) { create(:user) }
+  let!(:ability) { Ability.new(user) }
 
   context 'Authenticated user' do
 
@@ -31,7 +32,6 @@ feature 'Create question', %q{
       fill_in 'question_body', with: nil
       click_on 'Отправить'
 
-      expect(page).to have_content 'Ошибка. Попробуйте еще раз.'
       expect(page).to have_content "Body can't be blank"
       expect(page).to have_content "Title can't be blank"
     end
@@ -75,9 +75,7 @@ feature 'Create question', %q{
 
     scenario 'Non-authenticated user try to ask question' do
       visit questions_path
-      click_on 'Создать вопрос'
-
-      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      expect(page).to_not have_link 'Создать вопрос'
     end
 
   end

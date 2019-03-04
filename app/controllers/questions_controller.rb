@@ -20,7 +20,9 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    respond_with(@question = Question.new)
+    @question = Question.new
+    @question.attachments.build
+    respond_with(@question)
   end
 
   def create

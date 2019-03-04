@@ -1,1 +1,1 @@
-$('#question-<%= @question.id %>').replaceWith("<%= j render @question %>");
+$('.question').data("id", <%= @question.id %>).replaceWith("<%= j render @question %>");

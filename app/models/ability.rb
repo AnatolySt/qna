@@ -5,6 +5,7 @@ class Ability
   attr_reader :user
 
   def initialize(user)
+    set_aliases
     @user = user
 
     if user
@@ -38,6 +39,7 @@ class Ability
     can :me, User
     can :index, User
     can :destroy, Subscription, user_id: user.id
+    can :destroy, Attachment, attachable: { user_id: user.id }
   end
 
 end

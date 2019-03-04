@@ -5,6 +5,7 @@ feature 'User can delete his answer' do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:other_user) { create(:user) }
+  let!(:ability) { Ability.new(user) }
 
   background do
     create(:answer, question: question, user: user )
@@ -15,7 +16,7 @@ feature 'User can delete his answer' do
     visit question_path(question)
     expect(page).to have_content 'MyAnswerText'
     accept_alert do
-      click_on 'Удалить комментарий'
+      click_on 'Удалить ответ'
     end
     expect(page).to_not have_content 'MyAnswerText'
   end
@@ -23,12 +24,12 @@ feature 'User can delete his answer' do
   scenario 'Authenticated user do not see link to delete other user answer' do
     sign_in(other_user)
     visit question_path(question)
-    expect(page).to_not have_content 'Удалить комментарий'
+    expect(page).to_not have_content 'Удалить ответ'
   end
 
   scenario 'Non-authenticated user do not see link to delete answers' do
     visit question_path(question)
-    expect(page).to_not have_content 'Удалить комментарий'
+    expect(page).to_not have_content 'Удалить ответ'
   end
 
 end

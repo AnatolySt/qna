@@ -5,6 +5,7 @@ shared_examples_for 'Vote ability' do
   let(:author) { create(:user) }
   let(:user) { create(:user) }
   let(:question) { create(:question, user: author) }
+  let!(:ability) { Ability.new(user) }
 
   context 'Authenticated user' do
 
@@ -30,9 +31,7 @@ shared_examples_for 'Vote ability' do
       visit question_path(question)
       within container do
         click_on '+'
-        wait_for_ajax
         click_on '+'
-        wait_for_ajax
         expect(page).to have_content('Рейтинг: 1')
       end
     end
